@@ -1,340 +1,85 @@
-### CSS
-#### Semicolons(分号)
-> While the semicolon is technically a separator in CSS, always treat it as a terminator.
+# JavaScript
 
-虽然在CSS中分号被视作一个分隔号，但请始终将它视作终结号。
+一，注释
+
+原则：
+
+As short as possible（如无必要，勿增注释）：尽量提高代码本身的清晰性、可读性。
+As long as necessary（如有必要，尽量详尽）：合理的注释、空行排版等，可以让代码更易阅读、更具美感。
+1. 单行注释
+
+必须独占一行。// 后跟一个空格，缩进与下一行被注释说明的代码一致。
+
+2. 多行注释
+
+避免使用 /*...*/ 这样的多行注释。有多行注释内容时，使用多个单行注释。
+
+3. 函数/方法注释
+
+函数/方法注释必须包含函数说明，有参数和返回值时必须使用注释标识。；
+参数和返回值注释必须包含类型信息和说明；
+当函数是内部函数，外部不可访问时，可以使用 @inner 标识；
 ```
-/* bad */
-div {
-  color: red
-}
-
-/* good */
-div {
-  color: red;
-}
-```
-
-#### Box model(盒子模型)
-> The box model should ideally be the same for the entire document. A global * { box-sizing: border-box; } is fine, but don't change the default box model on specific elements if you can avoid it.
-
-对于整个文档来说，理论上来说盒子模型应该是相同的，全局设置盒子模型(`* { box-sizing: border-box; }`)是很好的。如果可以的话，请不要改变特定元素的默认盒子模型。
-
-```
-/* bad */
-div {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-/* good */
-div {
-  padding: 10px;
-}
-```
-
-#### Flow(文档流)
-> Don't change the default behavior of an element if you can avoid it. Keep elements in the natural document flow as much as you can. For example, removing the white-space below an image shouldn't make you change its default display:
-
-如果可以的话，请不要改变一个元素的默认表现行为。尽可能地保留原生文档流中元素的默认行为。例如，删除一个图像下面的`white-space`不会让你改变它的默认表现行为：
-```
-/* bad */
-img {
-  display: block;
-}
-
-/* good */
-img {
-  vertical-align: middle;
+/**
+ * 函数描述
+ *
+ * @param {string} p1 参数1的说明
+ * @param {string} p2 参数2的说明，比较长
+ *     那就换行了.
+ * @param {number=} p3 参数3的说明（可选）
+ * @return {Object} 返回值描述
+ */
+function foo(p1, p2, p3) {
+    var p3 = p3 || 10;
+    return {
+        p1: p1,
+        p2: p2,
+        p3: p3
+    };
 }
 ```
-> Similarly, don't take an element off the flow if you can avoid it.
+4. 文件注释
 
-同样的，如果可以的话，请不要让元素脱离文档流。
-```
-/* bad */
-div {
-  width: 100px;
-  position: absolute;
-  right: 0;
-}
-
-/* good */
-div {
-  width: 100px;
-  margin-left: auto;
-}
-```
-
-#### Positioning(定位)
-> There are many ways to position elements in CSS but try to restrict yourself to the properties/values below. By order of preference:
-
-在CSS中有许多种定位元素的方法，但是对于定位属性值的使用上尽量严格要求你自己按照以下使用顺序：
+文件注释用于告诉不熟悉这段代码的读者这个文件中包含哪些东西。 应该提供文件的大体内容, 它的作者, 依赖关系和兼容性信息。如下:
 
 ```
-display: block;
-display: flex;
-position: relative;
-position: sticky;
-position: absolute;
-position: fixed;
+/**
+ * @fileoverview Description of file, its uses and information
+ * about its dependencies.
+ * @author user@meizu.com (Firstname Lastname)
+ * Copyright 2009 Meizu Inc. All Rights Reserved.
+ */
 ```
+二，命名
 
-#### Selectors(选择器)
-> Minimize selectors tightly coupled to the DOM. Consider adding a class to the elements you want to match when your selector exceeds 3 structural pseudo-classes, descendant or sibling combinators.
+变量
 
-请将选择器与`DOM`节点尽量紧密的联系在一起(耦合)。如果你想为某个元素添加样式的时候你的选择器超过了三层结构的伪类、后代或者兄弟选择器，请考虑直接添加一个`class`。
+变量使用‘驼峰’命名法
+私有属性、变量和方法以下划线 _ 开头。
+常量, 使用全部字母大写，单词间下划线分隔的命名方式。
+函数
 
-```
-/* bad */
-div:first-of-type :last-child > p ~ *
+　　函数：
 
-/* good */
-div:first-of-type .info
-```
-> Avoid overloading your selectors when you don't need to.
+函数, 使用 Camel 命名法。
+函数的参数, 使用 Camel 命名法。
+　　类
 
-如果你不需要，请不要重载你的选择器。
-```
-img[src$=svg], ul > li:first-child {
-  opacity: 0;
-}
+类, 使用 Pascal 命名法
+类的 方法 / 属性, 使用 Camel 命名法
+　　枚举属性
 
-/* good */
-[src$=svg], ul > :first-child {
-  opacity: 0;
-}
-```
-#### Specificity(特异化)
-> Don't make values and selectors hard to override. Minimize the use of id's and avoid !important.
+枚举变量 使用 Pascal 命名法。
+枚举的属性， 使用全部字母大写，单词间下划线分隔的命名方式。
+　　由多个单词组成的 缩写词，在命名中，根据当前命名法和出现的位置，所有字母的大小写与首字母的大小写保持一致。
 
-不要让属性值和选择器变得难以重写，尽量减少`id`的使用和避免`!important`。
+三，命名语法
+类名，使用名词。
+函数名，使用动宾短语。
+boolean 类型的变量使用 is 或 has 开头。
+Promise 对象用动宾短语的进行时表达。
 
-```
-/* bad */
-.bar {
-  color: green !important;
-}
-.foo {
-  color: red;
-}
 
-/* good */
-.foo.bar {
-  color: green;
-}
-.foo {
-  color: red;
-}
-```
-
-#### Overriding(复写)
-> Overriding styles makes selectors and debugging harder. Avoid it when possible.
-
-复写样式会使得选择器和调试变得困难，尽可能避免这样做。
-
-```
-/* bad */
-li {
-  visibility: hidden;
-}
-li:first-child {
-  visibility: visible;
-}
-
-/* good */
-li + li {
-  visibility: hidden;
-}
-```
-
-#### Inheritance(继承)
-> Don't duplicate style declarations that can be inherited.
-
-不要对可以继承的样式声明进行重复声明。
-
-```
-/* bad */
-div h1, div p {
-  text-shadow: 0 1px 0 #fff;
-}
-
-/* good */
-div {
-  text-shadow: 0 1px 0 #fff;
-}
-```
-
-#### Brevity(简洁性)
-> Keep your code terse. Use shorthand properties and avoid using multiple properties when it's not needed.
-
-请保持代码的简洁性。尽量使用简写属性，当没有必要的时候应当避免使用多个属性。
-
-```
-/* bad */
-div {
-  transition: all 1s;
-  top: 50%;
-  margin-top: -10px;
-  padding-top: 5px;
-  padding-right: 10px;
-  padding-bottom: 20px;
-  padding-left: 10px;
-}
-
-/* good */
-div {
-  transition: 1s;
-  top: calc(50% - 10px);
-  padding: 5px 10px 20px;
-}
-```
-
-#### Language(语言)
-> Prefer English over math.
-
-相对于数学表达式更提倡使用英语，能使用英语表达的，尽量别使用数学表达式。
-```
-/* bad */
-:nth-child(2n + 1) {
-  transform: rotate(360deg);
-}
-
-/* good */
-:nth-child(odd) {
-  transform: rotate(1turn);
-}
-```
-
-#### Vendor prefixes(浏览器属性前缀)
-> Kill obsolete vendor prefixes aggressively. If you need to use them, insert them before the standard property.
-
-强烈建议抛弃那些已经过时的浏览器属性前缀。如果你需要使用他们，请在标准属性前面插入它们。
-```
-/* bad */
-div {
-  transform: scale(2);
-  -webkit-transform: scale(2);
-  -moz-transform: scale(2);
-  -ms-transform: scale(2);
-  transition: 1s;
-  -webkit-transition: 1s;
-  -moz-transition: 1s;
-  -ms-transition: 1s;
-}
-
-/* good */
-div {
-  -webkit-transform: scale(2);
-  transform: scale(2);
-  transition: 1s;
-}
-```
-
-#### Animations(动画)
-> Favor transitions over animations. Avoid animating other properties than `opacity` and `transform`.
-
-相对于`animations`来说更提倡使用`transitions`。除了 `opacity` 和 `transform`，`animate`过程中请避免使用其它属性。
-
-```
-/* bad */
-div:hover {
-  animation: move 1s forwards;
-}
-@keyframes move {
-  100% {
-    margin-left: 100px;
-  }
-}
-
-/* good */
-div:hover {
-  transition: 1s;
-  transform: translateX(100px);
-}
-```
-
-#### Units(单位)
-> Use unitless values when you can. Favor rem if you use relative units. Prefer seconds over milliseconds.
-
-当你能够使用无单位值的时候，你最能能够这样做。如果你需要使用相对单位，推荐`rem`。
-相对于毫秒来说，推荐使用秒。
-
-```
-/* bad */
-div {
-  margin: 0px;
-  font-size: .9em;
-  line-height: 22px;
-  transition: 500ms;
-}
-
-/* good */
-div {
-  margin: 0;
-  font-size: .9rem;
-  line-height: 1.5;
-  transition: .5s;
-}
-```
-
-#### Colors(颜色)
-> If you need transparency, use rgba. Otherwise, always use the hexadecimal format.
-
-如果你需要使用透明度，请使用`rgba`。否则，请使用十六进制的形式。
-
-```
-/* bad */
-div {
-  color: hsl(103, 54%, 43%);
-}
-
-/* good */
-div {
-  color: #5a3;
-}
-```
-
-#### Drawing(图片绘制)
-> Avoid HTTP requests when the resources are easily replicable with CSS.
-
-如果一个图形资源你你能用css轻松绘制出来进行代替，那么请不要使用`HTTP`请求。
-注:  white-circle   白圈
-```
-/* bad */
-div::before {
-  content: url(white-circle.svg);
-}
-
-/* good */
-div::before {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #fff;
-}
-```
-
-#### Hacks(css hack技巧)
-> Don't use them.
-
-不要使用他们。
-```
-/* bad */
-div {
-  // position: relative;
-  transform: translateZ(0);
-}
-
-/* good */
-div {
-  /* position: relative; */
-  will-change: transform;
-}
-```
 
 ### JavaScript
 #### Performance(性能)
